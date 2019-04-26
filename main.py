@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 from flask import request
 from datetime import datetime
+from flask.ext.cors import CORS, cross_origin
 import sys
 import os
 
@@ -20,7 +21,14 @@ model_columns = pickle.load(open(os.path.join(cur_dir,
 # Your API definition
 app = Flask(__name__)
 
+
+app.config['CORS_HEADERS'] = 'Content-Type'
+
+cors = CORS(app, resources={r"/": {"origins": "http://localhost:5000"}})
+
 @app.route('/', methods=['POST'])
+@cross_origin(origin='localhost',headers=['Content- Type','Authorization'])
+
 def predict():
     #print(request)
     if regressor:
